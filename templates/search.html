@@ -3,21 +3,22 @@
 {% load custom_filters %}
 
 {% block title %}
-News
+Новость
 {% endblock title %}
 
 {% block content %}
-    <h1>Все новости</h1>
-    <hr>
-        <table>
-            {% for post in news %}
-                <tr>
-                    <td><b>{{ post.header|censor }}</b></td>
-                    <td>{{ post.text|censor|truncatechars:20 }}</td>
-                    <td>{{ post.date_create|date:'d M Y' }}</td>
-                </tr>
-            {% endfor %}
-        </table>
+
+<h1>Все новости</h1>
+<hr>
+<table>
+  {% for post in news %}
+    <tr>
+      <td><b>{{ post.header|censor }}</b></td>
+      <td>{{ post.text|censor|truncatechars:20 }}</td>
+      <td>{{ post.date_create|date:'d M Y' }}</td>
+    </tr>
+  {% endfor %}
+</table>
 
 {{ page_obj.number }}
 
@@ -36,5 +37,14 @@ News
         <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
     {% endif %}
 {% endif %}
+
+
+<h1>Поиск</h1>
+
+  <form action="" method="get">
+    {{ filterset.form.as_p }}
+    <input type="submit" value="Найти">
+  </form>
+
 
 {% endblock content %}
