@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -53,3 +55,13 @@ class PostDelete(DeleteView):
     model = Post
     template_name = 'delete.html'
     success_url = reverse_lazy('post_list')
+
+
+@login_required
+def subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.add(user)
+
+    message = 'Вы успешно подписались на рассылку новостей категорий'
+    return render(request, 'subscribe.html', {'category': category, 'message': message})
